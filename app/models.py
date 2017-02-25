@@ -5,7 +5,7 @@
 # email: me@jack003.com
 from datetime import datetime
 
-from flask import url_for, current_app
+from flask import current_app
 from flask_login import UserMixin, AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -26,26 +26,24 @@ class BaseDocument(db.Document):
         return super(BaseDocument, self).save(*args, **kwargs)
 
 
-class JalpcPVCount(BaseDocument):
+class Jalpc_pv_count(BaseDocument):
     count = db.IntField(verbose_name=u'pv_count', required=True)
 
     @staticmethod
     def init_db(count=1):
-        s = JalpcPVCount(count=count)
-        db.session.add(s)
-        db.session.commit()
+        s = Jalpc_pv_count(count=count)
+        s.save()
         return s
 
     @staticmethod
     def access():
-        if JalpcPVCount.query.count():
-            s = JalpcPVCount.query.first()
+        if Jalpc_pv_count.objects.all():
+            s = Jalpc_pv_count.objects.all()[0]
             s.count += 1
-            db.session.add(s)
-            db.session.commit()
+            s.save()
             return s.count
         else:
-            s = JalpcPVCount.init_db(195000)
+            s = Jalpc_pv_count.init_db(195000)
             return s.count
 
 
@@ -65,19 +63,6 @@ class User(UserMixin, BaseDocument):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def to_json(self):
-        json_user = {
-            'url': url_for('api.get_post', id=self.id, _external=True),
-            'username': self.username,
-            'member_since': self.member_since,
-            'last_seen': self.last_seen,
-            'posts': url_for('api.get_user_posts', id=self.id, _external=True),
-            'followed_posts': url_for('api.get_user_followed_posts',
-                                      id=self.id, _external=True),
-            'post_count': self.posts.count()
-        }
-        return json_user
-
     def generate_auth_token(self, expiration):
         s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
         return s.dumps({'id': self.id}).decode('ascii')
@@ -89,7 +74,7 @@ class User(UserMixin, BaseDocument):
             data = s.loads(token)
         except:
             return None
-        return User.query.get(data['id'])
+        return User.objects.get_or_404(_id=data['id'])
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -104,4 +89,4 @@ login_manager.anonymous_user = AnonymousUser
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return User.objects.get_or_404(_id=user_id)
