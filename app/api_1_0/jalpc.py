@@ -5,17 +5,12 @@
 # email: me@jack003.com
 from flask import jsonify
 from . import api_1_0
-# from ..decorators import jsonp
+from ..decorators import jsonp
 from ..models import Jalpc_pv_count
 
 
 @api_1_0.route('/jalpc/pv_count', methods=['GET'])
-# @jsonp
+@jsonp
 def jalpc_count():
     cnt = Jalpc_pv_count.access()
     return jsonify(status='success', data=cnt)
-
-
-@api_1_0.route('/ss')
-def index():
-    return jsonify(data=1)

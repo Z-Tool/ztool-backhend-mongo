@@ -1,0 +1,46 @@
+[{
+    "id": "time",
+    "name": "Time",
+    "desc": "Get now time.",
+    "method": "GET, JSONP",
+    "url": "https://vps.jack003.com:8443/api/v1.0/time",
+    "parameters": ["<b>callback</b>: Required when using json callback"]
+}, {
+    "id": "jalpc-count",
+    "name": "Jalpc Count",
+    "desc": "Get Jalpc website PV count.",
+    "method": "GET, JSONP",
+    "url": "https://vps.jack003.com:8443/api/v1.0/jalpc/pv_count",
+    "parameters": ["<b>callback</b>: Required when using json callback"]
+}, {
+    "id": "rss-reader",
+    "name": "RSS",
+    "desc": "Get website's rss content.",
+    "method": "GET, JSONP",
+    "url": "https://vps.jack003.com:8443/api/v1.0/rss",
+    "parameters": ["<b>url</b>: Feed url address <span style='color: red;'>required</sapn>",
+                   "<b>callback</b>: Required when using json callback"]
+}, {
+    "id": "request-info",
+    "name": "Request/IP Infomation",
+    "desc": "Get request/IP information, no parameter is localhost.",
+    "method": "GET, JSONP",
+    "url": "https://vps.jack003.com:8443/api/v1.0/info",
+    "parameters": ["<b>ip</b>: IP address", "<b>callback</b>: Required when using json callback"]
+}, {
+    "id": "who-is",
+    "name": "Domain Name Information",
+    "desc": "Get domain name information",
+    "method": "GET, JSONP",
+    "url": "https://vps.jack003.com:8443/api/v1.0/whois",
+    "parameters": ["<b>domain</b>: Domain Name <span style='color: red;'>required</sapn>",
+                   "<b>callback</b>: Required when using json callback"]
+}, {
+    "id": "nslookup",
+    "name": "DNS Record",
+    "desc": "Query domain name DNS record",
+    "method": "GET, JSONP",
+    "url": "https://vps.jack003.com:8443/api/v1.0/nslookup",
+    "parameters": ["<b>domain</b>: Domain Name <span style='color: red;'>required</sapn>",
+                   "<b>callback</b>: Required when using json callback"]
+}]
