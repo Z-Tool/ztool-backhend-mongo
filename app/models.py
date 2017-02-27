@@ -4,6 +4,7 @@
 # date: 2/23/17
 # email: me@jack003.com
 from datetime import datetime
+from bson import ObjectId
 
 from flask import current_app
 from flask_login import UserMixin, AnonymousUserMixin
@@ -65,7 +66,7 @@ class User(UserMixin, BaseDocument):
 
     def generate_auth_token(self, expiration):
         s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
-        return s.dumps({'id': self.id}).decode('ascii')
+        return s.dumps({'id': str(self.id)})
 
     @staticmethod
     def verify_auth_token(token):
@@ -74,7 +75,7 @@ class User(UserMixin, BaseDocument):
             data = s.loads(token)
         except:
             return None
-        return User.objects.get_or_404(_id=data['id'])
+        return User.objects.get_or_404(id=ObjectId(data['id']))
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -89,4 +90,4 @@ login_manager.anonymous_user = AnonymousUser
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.objects.get_or_404(_id=user_id)
+    return User.objects.get_or_404(id=ObjectId(user_id))

@@ -22,9 +22,10 @@ def verify_password(email_or_token, password):
         g.current_user = User.verify_auth_token(email_or_token)
         g.token_used = True
         return g.current_user is not None
-    user = User.query.filter_by(email=email_or_token).first()
+    user = User.objects.filter(email=email_or_token)
     if not user:
         return False
+    user = user.first_or_404()
     g.current_user = user
     g.token_used = False
     return user.verify_password(password)

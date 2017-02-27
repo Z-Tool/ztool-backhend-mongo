@@ -38,5 +38,4 @@ def pip():
 @roles('vps')
 def deploy():
     rsync_project(local_dir='.', remote_dir=code_dir, exclude=exclude)
-    run('cp -a /jalpc/app/static /jalpc/static && source ~/.jalpc-env && uwsgi --reload /run/uwsgi.pid')
-
+    run('source ~/.jalpc-env && uwsgi --reload /run/uwsgi.pid')
