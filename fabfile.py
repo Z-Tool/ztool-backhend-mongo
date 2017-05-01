@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # author: Kun Jia
 # date: 2/23/17
-# email: me@jack003.com
+# email: me@jarrekk.com
 from __future__ import unicode_literals
 
 from fabric.api import run, roles, cd
@@ -13,7 +13,7 @@ code_dir = '/jalpc'
 exclude = ('.DS_Store', '*pyc', '.git', '.idea', '*sqlite3', 'migrations')
 
 env.roledefs = {
-    'vps': ['root@vps.jack003.com']
+    'vps': ['root@vps.jarrekk.com']
 }
 
 

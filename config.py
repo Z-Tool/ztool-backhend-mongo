@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # author: Kun Jia
 # date: 2/23/17
-# email: me@jack003.com
+# email: me@jarrekk.com
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 

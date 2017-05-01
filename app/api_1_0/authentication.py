@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # author: Kun Jia
 # date: 2/23/17
-# email: me@jack003.com
+# email: me@jarrekk.com
 from flask import g, jsonify, request
 from flask_httpauth import HTTPBasicAuth
 from ..models import User, AnonymousUser
