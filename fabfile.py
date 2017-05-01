@@ -44,3 +44,4 @@ def deploy():
 @roles('vps')
 def docker():
     rsync_project(local_dir='.', remote_dir=code_dir, exclude=exclude)
+    run('docker-compose build && docker-compose up')
