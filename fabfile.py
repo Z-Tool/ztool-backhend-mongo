@@ -39,3 +39,8 @@ def pip():
 def deploy():
     rsync_project(local_dir='.', remote_dir=code_dir, exclude=exclude)
     run('source ~/.jalpc-env && uwsgi --reload /run/uwsgi.pid')
+
+
+@roles('vps')
+def docker():
+    rsync_project(local_dir='.', remote_dir=code_dir, exclude=exclude)
