@@ -4,17 +4,11 @@ services:
 
   mongo:
     image: mongo
-#    ports:
-#      - 127.0.0.1:27017:27017
     volumes:
       - /var/lib/mongodb:/data/db:rw
-      # - /var/log/mongodb/mongod.log:/var/log/mongodb/mongod.log:rw
-      # - /etc/mongodb.conf:/data/configdb/mongodb.conf:ro
 
   flask:
     build: .
-#    ports:
-#      - 9090:9090
     volumes:
       - /jalpc:/jalpc
     depends_on:
@@ -30,7 +24,6 @@ services:
       - 8443:8443
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt:ro
-#      - /root/nginx:/etc/nginx:ro
       - /jalpc/nginx:/etc/nginx:ro
       - /usr/share/nginx/html:/usr/share/nginx/html:ro
       - /usr/share/nginx/jack003:/usr/share/nginx/jack003:ro
