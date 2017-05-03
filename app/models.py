@@ -44,7 +44,7 @@ class Jalpc_pv_count(BaseDocument):
             s.save()
             return s.count
         else:
-            s = Jalpc_pv_count.init_db(195000)
+            s = Jalpc_pv_count.init_db(295500)
             return s.count
 
 
