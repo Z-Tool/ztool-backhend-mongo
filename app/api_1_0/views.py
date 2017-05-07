@@ -65,7 +65,9 @@ def info():
         user_agent = {'status': 'error',
                       'message': 'not query localhost information'}
     ip_info = requests.get('http://api.ipinfodb.com/v3/ip-city/?key={0}&ip={1}&format=json'.format(key, ip)).json()
-    return jsonify(status='success', data={'ip': ip, 'ip_information': ip_info, 'user_agent': user_agent})
+    return jsonify(status='success', data={'ip': ip, 'ip_information': ip_info,
+                                           'user_agent': user_agent}), 200 if ip_info.statusCode != 'ERROR' else jsonify(
+        status='error'), 400
 
 
 @api_1_0.route('/whois')
@@ -93,7 +95,8 @@ def nslookup():
         else:
             app = current_app._get_current_object()
             key = app.config['IP_INFO_DB_KEY']
-            ip_info = requests.get('http://api.ipinfodb.com/v3/ip-city/?key={0}&ip={1}&format=json'.format(key, result)).json()
+            ip_info = requests.get(
+                'http://api.ipinfodb.com/v3/ip-city/?key={0}&ip={1}&format=json'.format(key, result)).json()
         return jsonify(status='success', data={'DNS record': result, 'IP infomation': ip_info})
     else:
         return jsonify(status='error', data='needs domain parameter'), 400
