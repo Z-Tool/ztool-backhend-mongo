@@ -108,3 +108,15 @@ def nslookup():
         return jsonify(status='success', data={'DNS record': result, 'IP infomation': ip_info})
     else:
         return jsonify(status='error', data='needs domain parameter'), 400
+
+
+@api_1_0.route('/pypi/<pkg>.svg')
+def pypi_stat(pkg):
+    cnt = 0
+    r = requests.get('https://pypi.python.org/pypi/{0}/json'.format(pkg)).json()
+    release = r.get('releases')
+    for k in release.keys():
+        if release.get(k, None):
+            cnt += release.get(k)[0].get('downloads', 0)
+    svg = requests.get('https://img.shields.io/badge/downloads-{0}-green.svg'.format(str(cnt))).content
+    return svg, 200, {'Content-Type': 'image/svg+xml'}
