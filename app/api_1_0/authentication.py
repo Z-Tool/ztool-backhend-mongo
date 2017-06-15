@@ -51,7 +51,7 @@ def before_request():
 def get_token():
     if g.current_user.is_anonymous or g.token_used:
         return unauthorized('Invalid credentials')
-    return jsonify(token=g.current_user.generate_auth_token(expiration=86400), expiration=86400, email=g.current_user.email)
+    return jsonify(token=g.current_user.generate_auth_token(expiration=86400).decode(), expiration=86400, email=g.current_user.email)
 
 
 @api_1_0.route('/test')
