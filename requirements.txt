@@ -1,4 +1,4 @@
-gevent==1.1.2
+gevent==1.2.2
 flask==0.12
 #flask-migrate==2.0.3
 flask_login==0.4.0
