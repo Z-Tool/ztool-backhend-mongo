@@ -44,14 +44,6 @@ def parse_rss():
         return jsonify(status='error', data='needs url parameter'), 400
 
 
-def ip_check(ip):
-    try:
-        ipaddress.ip_address(ip)
-        return True
-    except ValueError:
-        return False
-
-
 @api_1_0.route('/info')
 @jsonp
 def info():
@@ -73,11 +65,13 @@ def info():
     else:
         user_agent = {'status': 'error',
                       'message': 'not query localhost information'}
-    if ip_check(ip):
-        ip_info = requests.get('http://api.ipinfodb.com/v3/ip-city/?key={0}&ip={1}&format=json'.format(key, ip)).json()
+    try:
+        ipaddress.ip_address(ip)
+    except ValueError as e:
+        return jsonify(status='error', data={'message': e}), 400
     else:
-        return jsonify(status='error'), 400
-    return jsonify(status='success', data={'ip': ip, 'ip_information': ip_info, 'user_agent': user_agent}), 200 if \
+        ip_info = requests.get('http://api.ipinfodb.com/v3/ip-city/?key={0}&ip={1}&format=json'.format(key, ip)).json()
+        return jsonify(status='success', data={'ip': ip, 'ip_information': ip_info, 'user_agent': user_agent}), 200 if \
     ip_info['statusCode'] != 'ERROR' else jsonify(status='error'), 400
 
 
