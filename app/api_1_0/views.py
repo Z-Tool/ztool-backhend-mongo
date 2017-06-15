@@ -7,6 +7,7 @@ import datetime
 import json
 import socket
 import time
+import ipaddress
 
 import feedparser
 import pythonwhois
@@ -44,9 +45,11 @@ def parse_rss():
 
 
 def ip_check(ip):
-    q = ip.split('.')
-    return len(q) == 4 and len(filter(lambda x: x >= 0 and x <= 255, \
-        map(int, filter(lambda x: x.isdigit(), q)))) == 4
+    try:
+        ipaddress.ip_address(ip)
+        return True
+    except ValueError:
+        return False
 
 
 @api_1_0.route('/info')
