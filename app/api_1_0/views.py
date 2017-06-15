@@ -110,8 +110,8 @@ def nslookup():
 @api_1_0.route('/pypi/<pkg>.svg')
 def pypi_stat(pkg):
     cnt = 0
-    r = requests.get('https://pypi.python.org/pypi/{0}/json'.format(pkg)).json()
-    release = r.get('releases')
+    release = requests.get('https://pypi.python.org/pypi/{0}/json'.format(pkg)).json().get('releases')
+    # release = r.json().get('releases')
     for k in release.keys():
         if release.get(k, None):
             cnt += release.get(k)[0].get('downloads', 0)
