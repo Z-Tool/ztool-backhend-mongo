@@ -3,6 +3,7 @@
 # author: Kun Jia
 # date: 18/6/17
 # email: me@jarrekk.com
+import html
 import requests
 from flask import jsonify
 from . import api_1_0
@@ -17,6 +18,8 @@ def hacker_news(sub_url):
     except:
         return jsonify(status='error', data={'message': 'request error'}), 400
     else:
+        if r.json().get('text', None):
+            r.json()['text'] = html.unescape(r.json()['text'])
         return jsonify(status='success', data=r.json())
 
 
@@ -36,5 +39,7 @@ def get_list(items):
             print(e)
             return jsonify(status='error', data={'message': 'request error'}), 400
         else:
+            if r.json().get('text', None):
+                r.json()['text'] = html.unescape(r.json()['text'])
             data.append(r.json())
     return jsonify(status='success', data=data)
