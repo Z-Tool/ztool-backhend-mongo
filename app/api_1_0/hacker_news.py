@@ -38,6 +38,7 @@ def get_list(items):
             return jsonify(status='error', data={'message': 'request error'}), 400
         else:
             if r.json().get('text', None):
-                r.json()['text'] = html.unescape(r.json()['text'])
-            data.append(r.json())
+                result = r.json()
+                result['text'] = html.unescape(r.json()['text'])
+            data.append(result)
     return jsonify(status='success', data=data)
