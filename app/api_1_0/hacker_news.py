@@ -15,6 +15,26 @@ def hacker_news(sub_url):
     try:
         r = requests.get('https://hacker-news.firebaseio.com/' + sub_url)
     except:
-        return jsonify(status='error', data='request error')
+        return jsonify(status='error', data={'message': 'request error'}), 400
     else:
         return jsonify(status='success', data=r.json())
+
+
+@api_1_0.route('/hn/list/<items>', methods=['GET'])
+def get_list(items):
+    try:
+        items = eval(items)
+    except:
+        return jsonify(status='error', data={'message': 'items error'}), 400
+    # items = items.split(',')
+    print(items)
+    data = []
+    for item in items:
+        try:
+            r = requests.get('https://hacker-news.firebaseio.com/v0/item/' + str(item) + '.json')
+        except Exception as e:
+            print(e)
+            return jsonify(status='error', data={'message': 'request error'}), 400
+        else:
+            data.append(r.json())
+    return jsonify(status='success', data=data)
