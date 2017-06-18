@@ -18,8 +18,6 @@ def hacker_news(sub_url):
     except:
         return jsonify(status='error', data={'message': 'request error'}), 400
     else:
-        if r.json().get('text', None):
-            r.json()['text'] = html.unescape(r.json()['text'])
         return jsonify(status='success', data=r.json())
 
 
