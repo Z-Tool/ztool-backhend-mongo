@@ -18,7 +18,11 @@ def hacker_news(sub_url):
     except:
         return jsonify(status='error', data={'message': 'request error'}), 400
     else:
-        return jsonify(status='success', data=r.json())
+        if 'item' in sub_url:
+            if r.json().get('text', None):
+                data = r.json()
+                data['text'] = html.unescape(data['text'])
+        return jsonify(status='success', data=data)
 
 
 @api_1_0.route('/hn/list/<items>', methods=['GET'])
