@@ -6,6 +6,7 @@
 import html
 import requests
 from flask import jsonify
+from app.tasks import test_add
 from . import api_1_0
 
 
@@ -47,3 +48,9 @@ def get_list(items):
                 result['text'] = html.unescape(result['text'])
             data.append(result)
     return jsonify(status='success', data=data)
+
+
+@api_1_0.route('/testc')
+def testc():
+    test_add.delay(1, 2)
+    return 'add ok'
