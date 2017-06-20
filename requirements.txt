@@ -12,3 +12,4 @@ pythonwhois==2.4.3
 uwsgi==2.0.15
 celery==4.0.2
 redis==2.10.5
+pymongo==3.4.0
