@@ -22,7 +22,8 @@ def hacker_news(sub_url):
             if r.json().get('text', None):
                 data = r.json()
                 data['text'] = html.unescape(data['text'])
-        return jsonify(status='success', data=data)
+                return jsonify(status='success', data=data)
+        return jsonify(status='success', data=r.json())
 
 
 @api_1_0.route('/hn/list/<items>', methods=['GET'])
