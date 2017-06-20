@@ -10,3 +10,5 @@ feedparser==5.2.1
 requests==2.18.1
 pythonwhois==2.4.3
 uwsgi==2.0.15
+celery==4.0.2
+redis==2.10.5
