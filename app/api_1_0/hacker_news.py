@@ -17,6 +17,7 @@ def get_cache(stype):
     client = MongoClient(app.config['MONGODB_SETTINGS']['host'], app.config['MONGODB_SETTINGS']['port'])
     db = client.hacker_news
     data = db.cache.find({'stype': stype})
+    client.close()
     return 'ok'
 
 

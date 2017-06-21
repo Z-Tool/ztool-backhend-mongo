@@ -53,9 +53,9 @@ def cache_data():
     db = client.hacker_news
     types = ['top', 'new', 'best', 'ask', 'show', 'job']
     for i, t in enumerate(types):
-        dlist = get_list(t)
-        dcontent = get_content(dlist[0:10])
-        data = {'_id': i + 1, 'stype': t, 'slist': dlist, 'scontent': dcontent}
+        slist = get_list(t)
+        scontent = get_content(slist[:10])
+        data = {'_id': i + 1, 'stype': t, 'slist': slist, 'scontent': scontent}
         db.cache.update({'_id': data['_id']}, data, True)
     client.close()
     return True
