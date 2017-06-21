@@ -57,4 +57,5 @@ def cache_data():
         dcontent = get_content(dlist)
         data = {'_id': i + 1, 'dlist': dlist, 'dcontent': dcontent}
         db.cache.update({'_id': data['_id']}, data, True)
+    client.close()
     return True

@@ -8,7 +8,7 @@ import requests
 
 
 def get_list(stype):
-    url = 'https://hacker-news.firebaseio.com/v0/' + stype + 'stories'
+    url = 'https://hacker-news.firebaseio.com/v0/' + stype + 'stories.json'
     r = requests.get(url)
     return r.json()
 
