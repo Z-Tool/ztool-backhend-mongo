@@ -41,12 +41,12 @@ crontab(0, 0, month_of_year='*/3')  Execute on the first month of every quarter.
 #     return 'beat ok'
 #
 #
-# @celery.task
-# def test_add(a, b):
-#     return a + b
+@celery.task
+def test_add(a, b):
+    return a + b
 
 
-@periodic_task(run_every=crontab())
+@periodic_task(run_every=crontab(minute='*/2'))
 def cache_data():
     app = current_app._get_current_object()
     client = MongoClient(app.config['MONGODB_SETTINGS']['host'], app.config['MONGODB_SETTINGS']['port'])
