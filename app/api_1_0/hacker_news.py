@@ -25,7 +25,7 @@ def get_cache(stype):
     db = client.hacker_news
     data = db.cache.find({'stype': stype})
     client.close()
-    return 'ok'
+    return jsonify(status='success', data=data)
 
 
 @api_1_0.route('/hn/list/<items>', methods=['GET'])
