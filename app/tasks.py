@@ -3,6 +3,7 @@
 # author: Kun Jia
 # date: 20/06/2017
 # email: me@jack003.com
+import json
 from celery.schedules import crontab
 from celery.task import periodic_task
 from celery.utils.log import get_task_logger
@@ -49,15 +50,15 @@ def test_add(a, b):
 def cache_data():
     types = ['top', 'new', 'best', 'ask', 'show', 'job']
     for t in types:
-        dlist = str(get_list(t))
-        dcontent = str(get_content(dlist))
+        dlist = get_list(t)
+        dcontent = get_content(dlist)
         try:
             row = Hacker_news_cache.objects.get_or_404(stype=t)
         except:
-            row = Hacker_news_cache(stype=t, data_list=dlist, data_content=dcontent)
+            row = Hacker_news_cache(stype=t, data_list=json.loads(dlist), data_content=json.loads(dcontent))
         else:
-            row.data_list = dlist
-            row.data_content = dcontent
+            row.data_list = json.loads(dlist)
+            row.data_content = json.loads(dcontent)
         finally:
             row.save()
     return True
