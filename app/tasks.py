@@ -49,8 +49,8 @@ def test_add(a, b):
 def cache_data():
     types = ['top', 'new', 'best', 'ask', 'show', 'job']
     for t in types:
-        dlist = get_list(t)
-        dcontent = get_content(dlist)
+        dlist = str(get_list(t))
+        dcontent = str(get_content(dlist))
         try:
             row = Hacker_news_cache.objects.get_or_404(stype=t)
         except:

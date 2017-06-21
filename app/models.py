@@ -50,8 +50,8 @@ class Jalpc_pv_count(BaseDocument):
 
 class Hacker_news_cache(BaseDocument):
     stype = db.StringField(verbose_name='cache_type', required=True)
-    data_list = db.ListField(verbose_name='data_list', required=True)
-    data_content = db.ListField(verbose_name='data_content', required=True)
+    data_list = db.StringField(verbose_name='data_list', required=True)
+    data_content = db.StringField(verbose_name='data_content', required=True)
 
 
 class User(UserMixin, BaseDocument):
