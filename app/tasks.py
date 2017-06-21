@@ -3,11 +3,11 @@
 # author: Kun Jia
 # date: 20/06/2017
 # email: me@jack003.com
-from pymongo import MongoClient
-from flask import current_app
 from celery.schedules import crontab
 from celery.task import periodic_task
 from celery.utils.log import get_task_logger
+from .models import Hacker_news_cache
+from .api import get_list, get_content
 
 from app import celery
 
@@ -45,13 +45,19 @@ def test_add(a, b):
     return a + b
 
 
-@celery.tasks
+@periodic_task(run_every=crontab())
 def cache_data():
-    app = current_app._get_current_object()
-    client = MongoClient(app['MONGODB_SETTINGS']['host'], 27017)
-    db1 = client.hn_topstories
-    db2 = client.hn_newstories
-    db3 = client.hn_beststories
-    db4 = client.hn_ask
-    db5 = client.hn_show
-    db6 = client.hn_job
+    types = ['top', 'new', 'best', 'ask', 'show', 'job']
+    for t in types:
+        dlist = get_list(t)
+        dcontent = get_content(dlist)
+        try:
+            row = Hacker_news_cache.objects.get_or_404(stype=t)
+        except:
+            row = Hacker_news_cache(stype=t, data_list=dlist, data_content=dcontent)
+        else:
+            row.data_list = dlist
+            row.data_content = dcontent
+        finally:
+            row.save()
+    return True

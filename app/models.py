@@ -16,8 +16,8 @@ from app import login_manager
 
 
 class BaseDocument(db.Document):
-    created_at = db.DateTimeField(verbose_name=u'create_time', required=True)
-    updated_at = db.DateTimeField(verbose_name=u'update_time', required=True)
+    created_at = db.DateTimeField(verbose_name='create_time', required=True)
+    updated_at = db.DateTimeField(verbose_name='update_time', required=True)
     meta = {'abstract': True}
 
     def save(self, *args, **kwargs):
@@ -28,7 +28,7 @@ class BaseDocument(db.Document):
 
 
 class Jalpc_pv_count(BaseDocument):
-    count = db.IntField(verbose_name=u'pv_count', required=True)
+    count = db.IntField(verbose_name='pv_count', required=True)
 
     @staticmethod
     def init_db(count=1):
@@ -48,10 +48,16 @@ class Jalpc_pv_count(BaseDocument):
             return s.count
 
 
+class Hacker_news_cache(BaseDocument):
+    stype = db.StringField(verbose_name='cache_type', required=True)
+    data_list = db.DictField(verbose_name='data_list', required=True)
+    data_content = db.DictField(verbose_name='data_content', required=True)
+
+
 class User(UserMixin, BaseDocument):
-    email = db.EmailField(verbose_name=u'email', required=True)
-    username = db.StringField(verbose_name=u'username', required=True)
-    password_hash = db.StringField(verbose_name=u'password', required=True)
+    email = db.EmailField(verbose_name='email', required=True)
+    username = db.StringField(verbose_name='username', required=True)
+    password_hash = db.StringField(verbose_name='password', required=True)
 
     @property
     def password(self):
