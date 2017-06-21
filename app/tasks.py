@@ -55,6 +55,6 @@ def cache_data():
     for i, t in enumerate(types):
         dlist = get_list(t)
         dcontent = get_content(dlist)
-        data = {'dlist': dlist, 'dcontent': dcontent}
-        db.cache.update({'_id': i + 1}, data, True)
+        data = {'_id': i + 1, 'dlist': dlist, 'dcontent': dcontent}
+        db.cache.update({'_id': data['_id']}, data, True)
     return True
