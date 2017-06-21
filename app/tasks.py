@@ -3,6 +3,8 @@
 # author: Kun Jia
 # date: 20/06/2017
 # email: me@jack003.com
+from pymongo import MongoClient
+from flask import current_app
 import json
 from celery.schedules import crontab
 from celery.task import periodic_task
@@ -48,28 +50,28 @@ def test_add(a, b):
 
 @periodic_task(run_every=crontab())
 def cache_data():
-    types = ['top', 'new', 'best', 'ask', 'show', 'job']
-    for t in types:
-        dlist = get_list(t)
-        dcontent = get_content(dlist)
-        try:
-            row = Hacker_news_cache.objects.get_or_404(stype=t)
-        except:
-            row = Hacker_news_cache(stype=t, data_list=json.dumps(dlist), data_content=json.dumps(dcontent))
-        else:
-            row.data_list = json.dumps(dlist)
-            row.data_content = json.dumps(dcontent)
-        finally:
-            row.save()
-    return True
-    # app = current_app._get_current_object()
-    # client = MongoClient(app.config['MONGODB_SETTINGS']['host'], app.config['MONGODB_SETTINGS']['port'])
-    # db = client.hacker_news
     # types = ['top', 'new', 'best', 'ask', 'show', 'job']
-    # for i, t in enumerate(types):
+    # for t in types:
     #     dlist = get_list(t)
     #     dcontent = get_content(dlist)
-    #     data = {'_id': i + 1, 'dlist': dlist, 'dcontent': dcontent}
-    #     db.cache.update({'_id': data['_id']}, data, True)
-    # client.close()
+    #     try:
+    #         row = Hacker_news_cache.objects.get_or_404(stype=t)
+    #     except:
+    #         row = Hacker_news_cache(stype=t, data_list=json.dumps(dlist), data_content=json.dumps(dcontent))
+    #     else:
+    #         row.data_list = json.dumps(dlist)
+    #         row.data_content = json.dumps(dcontent)
+    #     finally:
+    #         row.save()
     # return True
+    app = current_app._get_current_object()
+    client = MongoClient(app.config['MONGODB_SETTINGS']['host'], app.config['MONGODB_SETTINGS']['port'])
+    db = client.hacker_news
+    types = ['top', 'new', 'best', 'ask', 'show', 'job']
+    for i, t in enumerate(types):
+        dlist = get_list(t)
+        dcontent = get_content(dlist)
+        data = {'_id': i + 1, 'dlist': dlist, 'dcontent': dcontent}
+        db.cache.update({'_id': data['_id']}, data, True)
+    client.close()
+    return True
