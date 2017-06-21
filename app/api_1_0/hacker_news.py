@@ -9,6 +9,13 @@ from flask import jsonify
 from . import api_1_0
 from flask import current_app
 from pymongo import MongoClient
+from ..tasks import test_add
+
+
+@api_1_0.route('/celery')
+def celery_test():
+    c = test_add.delay(1, 2)
+    return 'ok'
 
 
 @api_1_0.route('/hn/cache/<stype>')
