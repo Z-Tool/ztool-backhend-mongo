@@ -36,11 +36,11 @@ crontab(0, 0, month_of_year='*/3')  Execute on the first month of every quarter.
 """
 
 
-# @periodic_task(run_every=crontab())
-# def test_beat():
-#     return 'beat ok'
-#
-#
+@periodic_task(run_every=crontab())
+def test_beat():
+    return 'beat ok'
+
+
 @celery.task
 def test_add(a, b):
     return a + b
