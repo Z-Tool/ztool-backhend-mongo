@@ -46,7 +46,7 @@ crontab(0, 0, month_of_year='*/3')  Execute on the first month of every quarter.
 #     return a + b
 
 
-@periodic_task(run_every=crontab(minute='*/2'))
+@periodic_task(run_every=crontab())
 def cache_data():
     app = current_app._get_current_object()
     client = MongoClient(app.config['MONGODB_SETTINGS']['host'], app.config['MONGODB_SETTINGS']['port'])
@@ -54,7 +54,7 @@ def cache_data():
     types = ['top', 'new', 'best', 'ask', 'show', 'job']
     for i, t in enumerate(types):
         dlist = get_list(t)
-        dcontent = get_content(dlist)
+        dcontent = get_content(dlist[0:10])
         data = {'_id': i + 1, 'stype': t, 'slist': dlist, 'scontent': dcontent}
         db.cache.update({'_id': data['_id']}, data, True)
     client.close()
