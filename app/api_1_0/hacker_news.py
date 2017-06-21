@@ -6,25 +6,18 @@
 import html
 import requests
 from flask import jsonify
-from app.tasks import test_add
 from . import api_1_0
+from flask import current_app
+from pymongo import MongoClient
 
 
-@api_1_0.route('/hn/<sub_url>', methods=['GET'])
-def hacker_news(sub_url):
-    sub_url = '/'.join(sub_url.split('.')) + '.json'
-    # print('https://hacker-news.firebaseio.com/' + sub_url)
-    try:
-        r = requests.get('https://hacker-news.firebaseio.com/' + sub_url)
-    except:
-        return jsonify(status='error', data={'message': 'request error'}), 400
-    else:
-        if 'item' in sub_url:
-            if r.json().get('text', None):
-                data = r.json()
-                data['text'] = html.unescape(data['text'])
-                return jsonify(status='success', data=data)
-        return jsonify(status='success', data=r.json())
+@api_1_0.route('/hn/cache/<stype>')
+def get_cache(stype):
+    app = current_app._get_current_object()
+    client = MongoClient(app.config['MONGODB_SETTINGS']['host'], app.config['MONGODB_SETTINGS']['port'])
+    db = client.hacker_news
+    data = db.cache.find({'stype': stype})
+    return 'ok'
 
 
 @api_1_0.route('/hn/list/<items>', methods=['GET'])
@@ -50,7 +43,18 @@ def get_list(items):
     return jsonify(status='success', data=data)
 
 
-@api_1_0.route('/testc')
-def testc():
-    test_add.delay(1, 2)
-    return 'add ok'
+@api_1_0.route('/hn/<sub_url>', methods=['GET'])
+def hacker_news(sub_url):
+    sub_url = '/'.join(sub_url.split('.')) + '.json'
+    # print('https://hacker-news.firebaseio.com/' + sub_url)
+    try:
+        r = requests.get('https://hacker-news.firebaseio.com/' + sub_url)
+    except:
+        return jsonify(status='error', data={'message': 'request error'}), 400
+    else:
+        if 'item' in sub_url:
+            if r.json().get('text', None):
+                data = r.json()
+                data['text'] = html.unescape(data['text'])
+                return jsonify(status='success', data=data)
+        return jsonify(status='success', data=r.json())

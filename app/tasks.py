@@ -36,17 +36,17 @@ crontab(0, 0, month_of_year='*/3')  Execute on the first month of every quarter.
 """
 
 
-@periodic_task(run_every=crontab())
-def test_beat():
-    return 'beat ok'
+# @periodic_task(run_every=crontab())
+# def test_beat():
+#     return 'beat ok'
+#
+#
+# @celery.task
+# def test_add(a, b):
+#     return a + b
 
 
-@celery.task
-def test_add(a, b):
-    return a + b
-
-
-@periodic_task(run_every=crontab())
+@periodic_task(run_every=crontab(minute='*/2'))
 def cache_data():
     app = current_app._get_current_object()
     client = MongoClient(app.config['MONGODB_SETTINGS']['host'], app.config['MONGODB_SETTINGS']['port'])
@@ -55,7 +55,7 @@ def cache_data():
     for i, t in enumerate(types):
         dlist = get_list(t)
         dcontent = get_content(dlist)
-        data = {'_id': i + 1, 'dlist': dlist, 'dcontent': dcontent}
+        data = {'_id': i + 1, 'stype': t, 'dlist': dlist, 'dcontent': dcontent}
         db.cache.update({'_id': data['_id']}, data, True)
     client.close()
     return True
