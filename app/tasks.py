@@ -55,10 +55,10 @@ def cache_data():
         try:
             row = Hacker_news_cache.objects.get_or_404(stype=t)
         except:
-            row = Hacker_news_cache(stype=t, data_list=json.dumps(dlist), data_content=json.dumps(dcontent))
+            row = Hacker_news_cache(stype=t, data_list={'dlist': dlist}, data_content={'dcontent': dcontent})
         else:
-            row.data_list = json.dumps(dlist)
-            row.data_content = json.dumps(dcontent)
+            row.data_list = {'dlist': dlist}
+            row.data_content = {'dcontent': dcontent}
         finally:
             row.save()
     return True
