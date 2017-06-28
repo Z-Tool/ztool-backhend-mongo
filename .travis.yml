@@ -20,9 +20,11 @@ script:
   - python manage.py test --coverage
   - python -m unittest test/flask_test.py
 
-after_success:
-#  - ssh root@vps.jarrekk.com "echo login success"
-  - fab rebuild && fab up
+deploy:
+  provider: script
+  script: fab rebuild && fab up
+  on:
+    branch: master
 
 notifications:
   email: me@jarrekk.com
