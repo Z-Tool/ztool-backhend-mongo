@@ -1,0 +1,38 @@
+version: "2"
+
+services:
+
+  mongo:
+    image: mongo
+    command: mongod -f /data/configdb/mongodb.conf
+    volumes:
+      - /data/mongodb:/data/db:rw
+      - /backhend/configdb:/data/configdb:rw
+
+  redis:
+    image: redis
+    command: redis-server --appendonly yes
+    volumes:
+      - /data/redis:/data:rw
+
+  flask:
+    build: .
+    volumes:
+      - /backhend:/jalpc
+    links:
+      - mongo
+      - redis
+    env_file:
+      - ./.env
+
+  celery:
+    build:
+      context: .
+      dockerfile: celery.dockerfile
+    volumes:
+      - /backhend:/jalpc
+    links:
+      - redis
+    env_file:
+      - ./.env
+

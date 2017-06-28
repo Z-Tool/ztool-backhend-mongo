@@ -7,8 +7,7 @@ from fabric.api import run, roles, cd, local
 from fabric.context_managers import env
 from fabric.contrib.project import rsync_project
 
-code_dir = '/jalpc'
-html_dir = '/usr/share/nginx/html'
+code_dir = '/backhend'
 exclude = ('.DS_Store', '*pyc', '.git', '.idea', '*sqlite3', 'migrations', 'node_modules', 'readme_files')
 
 env.roledefs = {
@@ -41,28 +40,9 @@ crontabs = """# Edit this file to introduce tasks to be run by cron.
 5 0 * * * /bin/bash /root/dropbox_uploader.sh upload /data/mongodb /
 """
 
-@roles('vps')
-def front():
-    local('cd ./ztool-frontend && npm install ; npm run build ; cd -')
-    rsync_project(local_dir='./ztool-frontend/', remote_dir=''.join(code_dir, '/ztool-frontend'), exclude=exclude)
-
-
-@roles('vps')
-def flask():
-    rsync_project(local_dir='./ztool-backhend-mongo/', remote_dir=''.join([code_dir, '/ztool-backhend-mongo']), exclude=exclude)
-    with cd(code_dir):
-        run('docker-compose restart flask')
 
 @roles('vps')
 def rebuild():
-    rsync_project(local_dir='.', remote_dir=code_dir, exclude=exclude)
-    with cd(code_dir):
-        run('docker-compose down ; docker-compose build')
-
-
-@roles('vps')
-def rebuild_all():
-    local('cd ztool-frontend && npm install ; npm run build ; cd -')
     rsync_project(local_dir='.', remote_dir=code_dir, exclude=exclude)
     with cd(code_dir):
         run('docker-compose down ; docker-compose build')
