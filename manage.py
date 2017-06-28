@@ -13,6 +13,7 @@ from app.models import Jalpc_pv_count, User
 COV = None
 if os.environ.get('FLASK_COVERAGE'):
     import coverage
+
     COV = coverage.coverage(branch=True, include='app/*')
     COV.start()
 
@@ -28,6 +29,7 @@ manager = Manager(app)
 
 def make_shell_context():
     return dict(app=app, db=db, Jalpc=Jalpc_pv_count, User=User)
+
 
 manager.add_command("shell", Shell(make_context=make_shell_context))
 
@@ -52,6 +54,7 @@ def test(coverage=False):
         COV.html_report(directory=covdir)
         print('HTML version: file://%s/index.html' % covdir)
         COV.erase()
+
 
 if __name__ == '__main__':
     manager.run()
