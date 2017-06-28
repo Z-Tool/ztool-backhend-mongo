@@ -13,8 +13,8 @@ addons:
 before_script:
   - pip install Fabric3
   - pip install -r requirements.txt
-  - openssl aes-256-cbc -K $encrypted_43e498be0c5b_key -iv $encrypted_43e498be0c5b_iv -in id_rsa.enc -out id_rsa -d
-  - mkdir ~/.ssh ; chmod 600 ~/.ssh && mv -f id_rsa ~/.ssh && chmod 600 ~/.ssh/id_rsa
+  - openssl aes-256-cbc -K $encrypted_43e498be0c5b_key -iv $encrypted_43e498be0c5b_iv -in id_rsa.enc -out ~/.ssh/id_rsa -d
+#  - mkdir ~/.ssh ; chmod 600 ~/.ssh && mv -f id_rsa ~/.ssh && chmod 600 ~/.ssh/id_rsa
 
 script:
   - python -m unittest test/flask_test.py
