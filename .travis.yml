@@ -4,6 +4,7 @@ python: 3.6
 
 services:
   - mongodb
+  - redis-server
 
 addons:
   ssh_known_hosts:
