@@ -1,7 +1,16 @@
 sudo: required
-language: python
-python:
-- 3.6
+
+services:
+  - docker
+
+before_install:
+  - docker pull python:3.6.1
+  - docker pull mongo
+  - docker run -d --name mongo mongo
+  - docker run -d --link mongo:mongo --name flask python:3.6.1
+  - docker ps -a
+  - docker run flask /bin/sh -c "pip install -r requirements.txt"
+
 script: python -m unittest test/flask_test.py
 notifications:
   email: me@jarrekk.com
