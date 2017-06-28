@@ -1,0 +1,8 @@
+sudo: required
+language: python
+python:
+- 3.6
+before_script: sh ./travis/init.sh
+script: python -m unittest test/flask_test.py
+notifications:
+  email: me@jarrekk.com
