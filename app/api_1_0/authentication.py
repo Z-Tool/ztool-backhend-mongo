@@ -5,7 +5,7 @@
 # email: me@jarrekk.com
 from flask import g, jsonify, request
 from flask_httpauth import HTTPBasicAuth
-from ..models import User, AnonymousUser
+from app.models import User, AnonymousUser
 from . import api_1_0
 from .errors import unauthorized
 from .constant import login_required_list

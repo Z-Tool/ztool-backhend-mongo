@@ -29,6 +29,19 @@ class DevConfig(Config):
     logging.getLogger('flask_cors').level = logging.DEBUG
 
 
+class TestConfig(Config):
+    DEBUG = True
+    MONGODB_SETTINGS = {
+        'db': 'jalpc',
+        'host': 'mongo',
+        'port': 27017
+    }
+    CELERY_BROKER_URL = 'redis://localhost:6379/0'
+    CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+    import logging
+    logging.getLogger('flask_cors').level = logging.DEBUG
+
+
 class ProdConfig(Config):
     DEBUG = False
     # DEBUG = True
@@ -45,5 +58,6 @@ class ProdConfig(Config):
 
 config = {
     'default': DevConfig,
+    'testing': TestConfig,
     'prod': ProdConfig
 }

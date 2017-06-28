@@ -15,7 +15,7 @@ import requests
 from flask import jsonify, request, current_app
 
 from . import api_1_0
-from ..decorators import jsonp
+from app.decorators import jsonp
 
 
 @api_1_0.route('/', methods=['GET'])

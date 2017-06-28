@@ -9,7 +9,7 @@ from flask import jsonify
 from . import api_1_0
 from flask import current_app
 from pymongo import MongoClient
-from ..tasks import test_add
+from app.tasks import test_add
 
 
 @api_1_0.route('/celery')

@@ -5,8 +5,8 @@
 # email: me@jarrekk.com
 from flask import jsonify
 from . import api_1_0
-from ..decorators import jsonp
-from ..models import Jalpc_pv_count
+from app.decorators import jsonp
+from app.models import Jalpc_pv_count
 
 
 @api_1_0.route('/jalpc/pv_count', methods=['GET'])
