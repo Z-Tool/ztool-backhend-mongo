@@ -45,4 +45,5 @@ class FlaskClientTestCase(unittest.TestCase):
         slist = json.loads(response.data.decode('utf-8'))['data']['slist']
         response = self.client.get('/hn/list/' + str(slist))
         self.assertEqual(response.status_code, 200)
-
+        response = self.client.get('/hn/v0.item.160705')
+        self.assertEqual(response.status_code, 200)
