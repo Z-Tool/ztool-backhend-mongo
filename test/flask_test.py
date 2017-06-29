@@ -40,10 +40,10 @@ class FlaskClientTestCase(unittest.TestCase):
     def test_hack_news(self):
         from app.tasks import cache_data
         self.assertTrue(cache_data())
-        response = self.client.get('/hn/cache/ask')
+        response = self.client.get('/api/v1.0/hn/cache/top')
         self.assertEqual(response.status_code, 200)
         slist = json.loads(response.data.decode('utf-8'))['data']['slist']
-        response = self.client.get('/hn/list/' + str(slist))
+        response = self.client.get('/api/v1.0/hn/list/' + str(slist))
         self.assertEqual(response.status_code, 200)
-        response = self.client.get('/hn/v0.item.160705')
+        response = self.client.get('/api/v1.0/hn/v0.item.160705')
         self.assertEqual(response.status_code, 200)
