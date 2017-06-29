@@ -18,7 +18,7 @@ before_script:
 
 script:
   - python manage.py test --coverage
-  - python -m unittest test/flask_test.py
+  - nosetest --with-coverage test
 
 deploy:
   provider: script
