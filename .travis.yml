@@ -19,7 +19,7 @@ before_script:
 
 script:
   - nosetests --with-coverage --cover-package=app test
-  - codecov -t 253ae62c-e509-4ffe-8c1a-e1cc2cacbb8b
+  - codecov
 
 deploy:
   provider: script
