@@ -17,7 +17,7 @@ before_script:
   - chmod 600 ~/.ssh/id_rsa
 
 script:
-  - nosetests --with-coverage test
+  - nosetests --with-coverage --cover-package=app test
 
 deploy:
   provider: script
