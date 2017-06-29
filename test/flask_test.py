@@ -27,6 +27,22 @@ class FlaskClientTestCase(unittest.TestCase):
         response = self.client.get('/')
         self.assertTrue('welcome' in response.get_data(as_text=True))
 
+    def test_time(self):
+        response = self.client.get('/api/v1.0/time')
+        self.assertEqual(response.status_code, 200)
+
+    def test_whois(self):
+        response = self.client.get('/api/v1.0/whois?domain=jarrekk.com')
+        self.assertEqual(response.status_code, 200)
+
+    def test_nslookup(self):
+        response = self.client.get('/api/v1.0/nslookup?domain=www.jarrekk.com')
+        self.assertEqual(response.status_code, 200)
+
+    def test_pkg(self):
+        response = self.client.get('/api/v1.0/pypi/imgkit.svg')
+        self.assertEqual(response.status_code, 200)
+
     def test_jalpc(self):
         response = self.client.get('/api/v1.0/jalpc/pv_count')
         self.assertEqual(response.status_code, 200)
