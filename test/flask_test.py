@@ -15,7 +15,7 @@ from app import create_app
 
 class FlaskClientTestCase(unittest.TestCase):
     def setUp(self):
-        self.app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+        self.app = create_app(os.getenv('FLASK_CONFIG') or 'testing')
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.client = self.app.test_client(use_cookies=True)
@@ -36,3 +36,13 @@ class FlaskClientTestCase(unittest.TestCase):
         json_response = json.loads(response.data.decode('utf-8'))
         self.assertEqual(json_response['status'], 'success')
         self.assertEqual(json_response['data']['ip_information']['cityName'], 'Mountain View')
+
+    def test_hack_news(self):
+        from app.tasks import cache_data
+        self.assertTrue(cache_data())
+        response = self.client.get('/hn/cache/ask')
+        self.assertEqual(response.status_code, 200)
+        slist = json.loads(response.data.decode('utf-8'))['data']['slist']
+        response = self.client.get('/hn/list/' + str(slist))
+        self.assertEqual(response.status_code, 200)
+
