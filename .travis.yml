@@ -12,12 +12,14 @@ addons:
 
 before_script:
   - pip install Fabric3
+  - pip install --user codecov
   - pip install -r requirements.txt
   - openssl aes-256-cbc -K $encrypted_43e498be0c5b_key -iv $encrypted_43e498be0c5b_iv -in id_rsa.enc -out ~/.ssh/id_rsa -d
   - chmod 600 ~/.ssh/id_rsa
 
 script:
   - nosetests --with-coverage --cover-package=app test
+  - codecov
 
 deploy:
   provider: script
