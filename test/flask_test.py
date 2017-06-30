@@ -27,22 +27,22 @@ class FlaskClientTestCase(unittest.TestCase):
     def tearDown(self):
         self.app_context.pop()
 
-    '''index page'''
+    # index page
     def test_home_page(self):
         response = self.client.get('/')
         self.assertTrue('welcome' in response.get_data(as_text=True))
 
-    '''api index page'''
+    # api index page
     def test_api_home_page(self):
         response = self.client.get('/api/v1.0')
         self.assertTrue(response.status_code in [200, 301])
 
-    '''api time'''
+    # api time
     def test_time(self):
         response = self.client.get('/api/v1.0/time')
         self.assertEqual(response.status_code, 200)
 
-    '''api whois'''
+    # api whois
     def test_whois(self):
         response = self.client.get('/api/v1.0/whois?domain=jarrekk.com')
         self.assertEqual(response.status_code, 200)
@@ -51,7 +51,7 @@ class FlaskClientTestCase(unittest.TestCase):
         response = self.client.get('/api/v1.0/whois')
         self.assertEqual(response.status_code, 400)
 
-    '''api info'''
+    # api info
     def test_ip_info(self):
         response = self.client.get('/api/v1.0/info?ip=8.8.8.8')
         json_response = json.loads(response.data.decode('utf-8'))
@@ -64,7 +64,7 @@ class FlaskClientTestCase(unittest.TestCase):
         self.assertEqual(json_response['status'], 'success')
         self.assertEqual(json_response['data']['user_agent']['status'], 'success')
 
-    '''api nslookup'''
+    # api nslookup
     def test_nslookup(self):
         response = self.client.get('/api/v1.0/nslookup?domain=vps.jarrekk.com')
         json_response = json.loads(response.data.decode('utf-8'))
@@ -81,12 +81,12 @@ class FlaskClientTestCase(unittest.TestCase):
         self.assertEqual(json_response['status'], 'success')
         self.assertEqual(json_response['data']['DNS record'], 'domain error, check your input')
 
-    '''api pkg'''
+    # api pkg
     def test_pkg(self):
         response = self.client.get('/api/v1.0/pypi/imgkit.svg')
         self.assertEqual(response.status_code, 200)
 
-    '''api jalpc'''
+    # api jalpc
     def test_jalpc(self):
         response = self.client.get('/api/v1.0/jalpc/pv_count')
         self.assertEqual(response.status_code, 200)
