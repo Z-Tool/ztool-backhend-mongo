@@ -100,6 +100,7 @@ def nslookup():
         else:
             app = current_app._get_current_object()
             key = app.config['IP_INFO_DB_KEY']
+            time.sleep(3)
             ip_info = requests.get(
                 'http://api.ipinfodb.com/v3/ip-city/?key={0}&ip={1}&format=json'.format(key, result)).json()
         return jsonify(status='success', data={'DNS record': result, 'IP infomation': ip_info})
