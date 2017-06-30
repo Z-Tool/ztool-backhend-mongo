@@ -66,8 +66,9 @@ class FlaskClientTestCase(unittest.TestCase):
 
     '''api nslookup'''
     def test_nslookup(self):
-        response = self.client.get('/api/v1.0/nslookup?domain=www.jarrekk.com')
-        self.assertEqual(response.status_code, 200)
+        response = self.client.get('/api/v1.0/nslookup?domain=vps.jarrekk.com')
+        json_response = json.loads(response.data.decode('utf-8'))
+        self.assertEqual(json_response['status'], 'success')
 
     def test_nslookup_fail_none(self):
         response = self.client.get('/api/v1.0/nslookup')
