@@ -78,7 +78,7 @@ class FlaskClientTestCase(unittest.TestCase):
         json_response = json.loads(response.data.decode('utf-8'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(json_response['status'], 'success')
-        self.assertEqual(json_response['result'], 'domain error, check your input')
+        self.assertEqual(json_response['data']['DNS record'], 'domain error, check your input')
 
     '''api pkg'''
     def test_pkg(self):
