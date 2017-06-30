@@ -27,35 +27,68 @@ class FlaskClientTestCase(unittest.TestCase):
     def tearDown(self):
         self.app_context.pop()
 
+    '''index page'''
     def test_home_page(self):
         response = self.client.get('/')
         self.assertTrue('welcome' in response.get_data(as_text=True))
 
+    '''api index page'''
+    def test_api_home_page(self):
+        response = self.client.get('/api/v1.0')
+        self.assertEqual(response.status_code, 200)
+
+    '''api time'''
     def test_time(self):
         response = self.client.get('/api/v1.0/time')
         self.assertEqual(response.status_code, 200)
 
+    '''api whois'''
     def test_whois(self):
         response = self.client.get('/api/v1.0/whois?domain=jarrekk.com')
         self.assertEqual(response.status_code, 200)
 
-    def test_nslookup(self):
-        response = self.client.get('/api/v1.0/nslookup?domain=www.jarrekk.com')
-        self.assertEqual(response.status_code, 200)
+    def test_whois_fail(self):
+        response = self.client.get('/api/v1.0/whois')
+        self.assertEqual(response.status_code, 400)
 
-    def test_pkg(self):
-        response = self.client.get('/api/v1.0/pypi/imgkit.svg')
-        self.assertEqual(response.status_code, 200)
-
-    def test_jalpc(self):
-        response = self.client.get('/api/v1.0/jalpc/pv_count')
-        self.assertEqual(response.status_code, 200)
-
+    '''api info'''
     def test_ip_info(self):
         response = self.client.get('/api/v1.0/info?ip=8.8.8.8')
         json_response = json.loads(response.data.decode('utf-8'))
         self.assertEqual(json_response['status'], 'success')
         self.assertEqual(json_response['data']['ip_information']['cityName'], 'Mountain View')
+
+    def test_ip_info_self(self):
+        response = self.client.get('/api/v1.0/info')
+        json_response = json.loads(response.data.decode('utf-8'))
+        self.assertEqual(json_response['status'], 'success')
+        self.assertEqual(json_response['user_agent']['status'], 'success')
+
+    '''api nslookup'''
+    def test_nslookup(self):
+        response = self.client.get('/api/v1.0/nslookup?domain=www.jarrekk.com')
+        self.assertEqual(response.status_code, 200)
+
+    def test_nslookup_fail_none(self):
+        response = self.client.get('/api/v1.0/nslookup')
+        self.assertEqual(response.status_code, 400)
+
+    def test_nslookup_fail_invalid(self):
+        response = self.client.get('/api/v1.0/nslookup?domain=abcdefg')
+        json_response = json.loads(response.data.decode('utf-8'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json_response['status'], 'success')
+        self.assertEqual(json_response['result'], 'domain error, check your input')
+
+    '''api pkg'''
+    def test_pkg(self):
+        response = self.client.get('/api/v1.0/pypi/imgkit.svg')
+        self.assertEqual(response.status_code, 200)
+
+    '''api jalpc'''
+    def test_jalpc(self):
+        response = self.client.get('/api/v1.0/jalpc/pv_count')
+        self.assertEqual(response.status_code, 200)
 
     def test_hack_news(self):
         from app.tasks import cache_data
