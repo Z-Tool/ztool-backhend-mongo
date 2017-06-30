@@ -90,5 +90,5 @@ ENV/
 
 .idea/
 .DS_Store
-celerybeat-schedule
+celerybeat-schedule*
 tmp/

@@ -5,7 +5,11 @@
 # email: me@jack003.com
 import json
 import os
+import sys
 import unittest
+
+TESTS_ROOT = os.path.abspath(os.path.dirname(__file__))
+sys.path.insert(0, os.path.realpath(os.path.join(TESTS_ROOT, '..')))
 
 from app import create_app
 
@@ -63,3 +67,7 @@ class FlaskClientTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         response = self.client.get('/api/v1.0/hn/v0.item.160705')
         self.assertEqual(response.status_code, 200)
+
+
+if __name__ == "__main__":
+    unittest.main()
