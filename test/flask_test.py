@@ -35,9 +35,7 @@ class FlaskClientTestCase(unittest.TestCase):
     '''api index page'''
     def test_api_home_page(self):
         response = self.client.get('/api/v1.0')
-        json_response = json.loads(response.data.decode('utf-8'))
         self.assertTrue(response.status_code in [200, 301])
-        self.assertEqual(json_response['status'], 'success')
 
     '''api time'''
     def test_time(self):
