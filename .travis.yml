@@ -18,7 +18,7 @@ before_script:
   - chmod 600 ~/.ssh/id_rsa
 
 script:
-  - nosetests --with-coverage --cover-package=app test/flask_test.py
+  - nosetests --with-coverage --cover-package=app -w test flask_test.py
   - codecov
 
 deploy:
