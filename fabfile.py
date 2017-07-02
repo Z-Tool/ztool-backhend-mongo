@@ -42,16 +42,16 @@ crontabs = """# Edit this file to introduce tasks to be run by cron.
 
 
 @roles('vps')
-def rebuild():
+def rebuild(container):
     rsync_project(local_dir='.', remote_dir=code_dir, exclude=exclude)
     with cd(code_dir):
-        run('docker-compose down ; docker-compose build')
+        run('docker-compose down {0}; docker-compose build {1}'.format(container, container))
 
 
 @roles('vps')
-def up():
+def up(container):
     with cd(code_dir):
-        run('docker-compose up -d')
+        run('docker-compose up -d {0}'.format(container))
 
 
 @roles('vps')

@@ -25,7 +25,7 @@ before_deploy:
 
 deploy:
   provider: script
-  script: fab rebuild && fab up
+  script: sh ./.travis/deploy.sh
   on:
     branch: master
 
