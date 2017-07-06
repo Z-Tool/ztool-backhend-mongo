@@ -8,7 +8,7 @@ from fabric.context_managers import env
 from fabric.contrib.project import rsync_project
 
 code_dir = '/backhend'
-exclude = ('.DS_Store', '*pyc', '.git', '.idea', '*sqlite3', 'migrations', 'node_modules', 'readme_files')
+exclude = ('.DS_Store', '*pyc', '.git', '.idea', '*sqlite3', 'migrations', 'node_modules', 'readme_files', '__pycache__')
 
 env.roledefs = {
     'vps': ['root@vps.jarrekk.com']
