@@ -8,12 +8,14 @@ services:
     volumes:
       - /data/mongodb:/data/db:rw
       - /backhend/configdb:/data/configdb:rw
+    restart: always
 
   redis:
     image: redis
     command: redis-server --appendonly yes
     volumes:
       - /data/redis:/data:rw
+    restart: always
 
   flask:
     build: .
@@ -24,6 +26,7 @@ services:
       - redis
     env_file:
       - ./.env
+    restart: always
 
   celery:
     build:
@@ -35,6 +38,7 @@ services:
       - redis
     env_file:
       - ./.env
+    restart: always
 
   nginx:
     image: nginx
@@ -48,3 +52,4 @@ services:
       - /frontend/dist:/usr/share/nginx/html:ro
     links:
       - flask
+    restart: always
