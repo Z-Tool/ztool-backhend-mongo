@@ -43,7 +43,7 @@ services:
       - 443:443
       - 8443:8443
     volumes:
-      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /etc/letsencrypt:/etc/letsencrypt:rw
       - /backhend/nginx:/etc/nginx:ro
       - /frontend/dist:/usr/share/nginx/html:ro
       - /usr/share/nginx/jack003:/usr/share/nginx/jack003:ro
