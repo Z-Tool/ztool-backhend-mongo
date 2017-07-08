@@ -17,7 +17,8 @@ exclude = (
     'migrations',
     'node_modules',
     'readme_files',
-    '__pycache__'
+    '__pycache__',
+    '.travis'
 )
 
 env.roledefs = {
