@@ -44,13 +44,14 @@ class FlaskClientTestCase(unittest.TestCase):
 
     # api rss
     def test_rss(self):
-        response = self.client.get('/api/rss?url=http://www.jarrekk.com/feed.xml')
+        response = self.client.get('/api/v1.0/rss?url=http://www.jarrekk.com/feed.xml')
         json_response = json.loads(response.data.decode('utf-8'))
         self.assertEqual(json_response['status'], 'success')
 
     def test_rss_fail(self):
-        response = self.client.get('/api/rss')
-        self.assertEqual(response.status_code, 400)
+        response = self.client.get('/api/v1.0/rss')
+        json_response = json.loads(response.data.decode('utf-8'))
+        self.assertEqual(json_response['status'], 'error')
 
     # api whois
     def test_whois(self):
