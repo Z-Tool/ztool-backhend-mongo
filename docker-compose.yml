@@ -21,7 +21,7 @@ services:
     build: .
     volumes:
       - /backhend:/jalpc
-    links:
+    depends_on:
       - mongo
       - redis
     env_file:
@@ -34,7 +34,7 @@ services:
       dockerfile: celery.dockerfile
     volumes:
       - /backhend:/jalpc
-    links:
+    depends_on:
       - redis
     env_file:
       - ./.env
@@ -50,6 +50,6 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt:rw
       - /backhend/nginx:/etc/nginx:ro
       - /frontend/dist:/usr/share/nginx/html:ro
-    links:
+    depends_on:
       - flask
     restart: always
