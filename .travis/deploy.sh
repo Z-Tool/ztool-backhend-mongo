@@ -8,7 +8,7 @@ ALL=$(ssh $SERVER docker ps |grep nginx | wc -l)
 touch_env () {
 if [ ! -f .env ]; then
 cat << EOF > .env
-FLASK_CONFIG=$FLASK_CONFIG
+FLASK_CONFIG=$1
 SECRET_KEY=$SECRET_KEY
 IPINFODBKEY=$IPINFODBKEY
 EOF
