@@ -14,7 +14,6 @@ from .api import get_list, get_content
 
 logger = get_task_logger(__name__)
 
-
 """
 Example:
 crontab()   Execute every minute.

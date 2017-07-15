@@ -72,7 +72,7 @@ def info():
     else:
         ip_info = requests.get('http://api.ipinfodb.com/v3/ip-city/?key={0}&ip={1}&format=json'.format(key, ip)).json()
         return jsonify(status='success', data={'ip': ip, 'ip_information': ip_info, 'user_agent': user_agent}), 200 if \
-    ip_info['statusCode'] != 'ERROR' else jsonify(status='error'), 400
+            ip_info['statusCode'] != 'ERROR' else jsonify(status='error'), 400
 
 
 @api_1_0.route('/whois')

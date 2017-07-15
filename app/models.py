@@ -91,6 +91,7 @@ class AnonymousUser(AnonymousUserMixin):
     def __init__(self):
         pass
 
+
 login_manager.anonymous_user = AnonymousUser
 
 
