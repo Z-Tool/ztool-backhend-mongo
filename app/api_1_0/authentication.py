@@ -41,7 +41,10 @@ def auth_error():
 def before_request():
     if request.method != 'OPTIONS':
         if g.current_user.is_anonymous and request.endpoint:
-            if '.' in request.endpoint and request.endpoint.startswith('api_1_0') and request.endpoint.split('.')[1] in login_required_list:
+            if '.' in \
+                    request.endpoint and \
+                    request.endpoint.startswith('api_1_0') and \
+                    request.endpoint.split('.')[1] in login_required_list:
                 return unauthorized('Unauthorized account')
     else:
         pass
@@ -51,7 +54,8 @@ def before_request():
 def get_token():
     if g.current_user.is_anonymous or g.token_used:
         return unauthorized('Invalid credentials')
-    return jsonify(token=g.current_user.generate_auth_token(expiration=86400).decode(), expiration=86400, email=g.current_user.email)
+    return jsonify(token=g.current_user.generate_auth_token(expiration=86400).decode(), expiration=86400,
+                   email=g.current_user.email)
 
 
 @api_1_0.route('/test')

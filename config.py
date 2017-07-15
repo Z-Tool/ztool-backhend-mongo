@@ -4,6 +4,7 @@
 # date: 2/23/17
 # email: me@jarrekk.com
 import os
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -55,6 +56,7 @@ class ProdConfig(Config):
     CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
     import logging
     logging.getLogger('flask_cors').level = logging.DEBUG
+
 
 config = {
     'default': DevConfig,

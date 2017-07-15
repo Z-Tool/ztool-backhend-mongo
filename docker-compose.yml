@@ -8,6 +8,8 @@ services:
     volumes:
       - /data/mongodb:/data/db:rw
       - /backhend/configdb:/data/configdb:rw
+    ports:
+      - "127.0.0.1:27017:27017"
     restart: always
 
   redis:
@@ -15,13 +17,15 @@ services:
     command: redis-server --appendonly yes
     volumes:
       - /data/redis:/data:rw
+    ports:
+      - "127.0.0.1:6379:6379"
     restart: always
 
   flask:
     build: .
     volumes:
       - /backhend:/jalpc
-    links:
+    depends_on:
       - mongo
       - redis
     env_file:
@@ -34,7 +38,7 @@ services:
       dockerfile: celery.dockerfile
     volumes:
       - /backhend:/jalpc
-    links:
+    depends_on:
       - redis
     env_file:
       - ./.env
@@ -50,6 +54,6 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt:rw
       - /backhend/nginx:/etc/nginx:ro
       - /frontend/dist:/usr/share/nginx/html:ro
-    links:
+    depends_on:
       - flask
     restart: always
