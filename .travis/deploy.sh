@@ -3,20 +3,14 @@
 YELLOW='\033[1;33m'
 NC='\033[0m'
 SERVER='root@vps.jarrekk.com'
-ALL=$(ssh $SERVER docker ps |grep nginx | wc -l)
 
-touch_env () {
-if [ ! -f .env ]; then
-cat << EOF > .env
+cat << EOF > ./.env
 FLASK_CONFIG=$1
 SECRET_KEY=$2
 IPINFODBKEY=$3
 EOF
-fi
-}
 
-rm -f .env
-touch_env
+ALL=$(ssh $SERVER docker ps |grep nginx | wc -l)
 
 if [ $ALL -eq 0 ];then
     echo "${YELLOW}Now deploy all docker container...${NC}"
